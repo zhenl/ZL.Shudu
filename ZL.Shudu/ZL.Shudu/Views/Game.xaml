@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZL.Shudu.Views.Game">
+    <ContentPage.Content>
+        <StackLayout x:Name="outerStack"  Orientation="Vertical">
+            <!-- Place new controls here -->
+            <Grid x:Name="myGrid" IsVisible="True" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="25"  />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="40" x:Name="rowButton" />
+                    <RowDefinition Height="40" x:Name="rowResult" />
+                </Grid.RowDefinitions>
+                <Label x:Name="lbFinish" Text="完成" IsVisible="false" Grid.Row="10" Grid.Column="0"  Grid.ColumnSpan="2" />
+                <Label x:Name="lbTime" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2" Text="" IsVisible="False"></Label>
+                <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="4" Text="" IsVisible="False"></Label>
+            </Grid>
+
+            <Grid x:Name="grdNumber" IsVisible="false">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+            </Grid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
