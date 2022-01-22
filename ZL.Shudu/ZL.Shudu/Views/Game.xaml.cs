@@ -268,7 +268,7 @@ namespace ZL.Shudu.Views
             }
             steps.Clear();
             dtBegin = DateTime.Now;
-
+            currentDiffer = 0;
             this.lbFinish.IsVisible = false;
             this.lbTime.IsVisible = false;
             this.lbMessage.IsVisible = false;
@@ -350,11 +350,12 @@ namespace ZL.Shudu.Views
             }
         }
 
-        private void btn_NewGame_Clicked(object sender, EventArgs e)
+        private async void btn_NewGame_Clicked(object sender, EventArgs e)
         {
             SetNewGame();
             lbFinish.IsVisible = false;
             lbTime.Text = "";
+            await Shell.Current.GoToAsync($"{nameof(Page1)}?{nameof(Page1.ItemId)}=1");
         }
 
 
