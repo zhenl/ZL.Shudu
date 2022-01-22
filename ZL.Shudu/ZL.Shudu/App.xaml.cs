@@ -1,8 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using ZL.Shudu.Services;
-using ZL.Shudu.Views;
+﻿using Xamarin.Forms;
 
 namespace ZL.Shudu
 {
@@ -12,8 +8,6 @@ namespace ZL.Shudu
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
