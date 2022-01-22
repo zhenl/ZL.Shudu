@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,8 +138,8 @@ namespace ZL.Shudu.Views
 
                 SetNumButtons();
                 SetLayout();
-                SetNewGame();
-               
+                if (!OpenCurrent()) SetNewGame();
+
             }
             catch (Exception ex)
             {
@@ -332,6 +333,8 @@ namespace ZL.Shudu.Views
                 rowResult.Height = 40;
                 var diff = (DateTime.Now.Ticks - dtBegin.Ticks + currentDiffer) / 10000 / 1000 / 60;
                 lbTime.Text = diff + "分钟";
+                string _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "shudu_current.txt");
+                File.Delete(_fileName);
             }
         }
 
@@ -393,6 +396,113 @@ namespace ZL.Shudu.Views
                 }
             }
             return true;
+        }
+
+        private void Save(string filename)
+        {
+            try
+            {
+                var strchess = "";
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        strchess += chess[i, j].ToString();
+                    }
+                }
+                strchess += " ";
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        strchess += string.IsNullOrEmpty(buttons[i, j].Text) ? "0" : buttons[i, j].Text;
+                    }
+                }
+                strchess += " ";
+                foreach (var str in steps)
+                {
+                    strchess += str + ";";
+                }
+                strchess += " ";
+                strchess += (DateTime.Now - dtBegin).Ticks.ToString();
+                string _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), filename);
+                File.WriteAllText(_fileName, strchess);
+            }
+            catch (Exception ex)
+            {
+
+                lbMessage.Text = ex.Message;
+            }
+        }
+
+        private bool OpenCurrent()
+        {
+            try
+            {
+                string _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "shudu_current.txt");
+                if (File.Exists(_fileName))
+                {
+                    var strchess = File.ReadAllText(_fileName);
+                    int[,] fchess = new int[9, 9];
+                    var arr = strchess.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    for (var i = 0; i < 9; i++)
+                    {
+                        for (var j = 0; j < 9; j++)
+                        {
+                            chess[i, j] = int.Parse(arr[0].Substring(i * 9 + j, 1));
+                            fchess[i, j] = int.Parse(arr[1].Substring(i * 9 + j, 1));
+                        }
+                    }
+                    for (var i = 0; i < 9; i++)
+                    {
+                        for (var j = 0; j < 9; j++)
+                        {
+                            var btn = buttons[i, j];
+                            if (chess[i, j] > 0)
+                            {
+                                btn.Text = chess[i, j].ToString();
+                            }
+                            else
+                            {
+                                btn.Text = fchess[i, j] > 0 ? fchess[i, j].ToString() : "";
+                            }
+                            btn.IsEnabled = chess[i, j] == 0;
+                            int m = i / 3;
+                            int n = j / 3;
+
+                            var c = new Color(0.9, 0.9, 0.9);
+                            if ((m + n) % 2 == 0)
+                            {
+                                c = new Color(0.7, 0.7, 0.7);
+                            }
+                            btn.BackgroundColor = c;
+                        }
+                    }
+                    if (arr.Length > 2)
+                    {
+                        var steparr = arr[2].Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        steps.Clear();
+                        foreach(var step in steparr) steps.Push(step);
+                    }
+                    if (arr.Length > 3)
+                    {
+                        currentDiffer = long.Parse(arr[3]);
+                    }
+                    dtBegin = DateTime.Now;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                lbMessage.Text = ex.Message;
+            }
+            return false;
+        }
+
+        protected override void OnDisappearing()
+        {
+            Save("shudu_current.txt");
         }
     }
 }
