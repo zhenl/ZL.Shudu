@@ -18,8 +18,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-
-                    <RowDefinition Height="25"  />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="25" />
@@ -31,6 +30,9 @@
                     <RowDefinition Height="40" x:Name="rowButton" />
                     <RowDefinition Height="40" x:Name="rowResult" />
                 </Grid.RowDefinitions>
+                <Button Text="后退" Grid.Row="9" Grid.Column="4"  Grid.ColumnSpan="2" Clicked="btn_Reset_Clicked"></Button>
+                <Button Text="新游戏" Grid.Row="9" Grid.Column="6"  Grid.ColumnSpan="3" Clicked="btn_NewGame_Clicked"></Button>
+
                 <Label x:Name="lbFinish" Text="完成" IsVisible="false" Grid.Row="10" Grid.Column="0"  Grid.ColumnSpan="2" />
                 <Label x:Name="lbTime" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2" Text="" IsVisible="False"></Label>
                 <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="4" Text="" IsVisible="False"></Label>
@@ -47,7 +49,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-
                 </Grid.RowDefinitions>
             </Grid>
 

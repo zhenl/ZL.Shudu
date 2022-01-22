@@ -36,6 +36,12 @@ namespace ZL.Shudu.Views
         private Button[,] numbuttons = new Button[2, 5];
         private Button currentButton;
         private Button currentNumBtn;
+
+        private DateTime dtBegin;
+        private Stack<string> steps = new Stack<string>();
+        private long currentDiffer = 0;//记录的时间差
+
+
         public Game()
         {
             try
@@ -45,6 +51,7 @@ namespace ZL.Shudu.Views
                 SetNumButtons();
                 SetLayout();
                 SetNewGame();
+               
             }
             catch (Exception ex)
             {
@@ -98,6 +105,7 @@ namespace ZL.Shudu.Views
                         c = new Color(0.5,0.5, 0.5);
                     }
                     btn.BackgroundColor = c;
+                    
                     btn.Padding = 0;
                     btn.Margin = 0;
                     btn.FontSize = 20;
@@ -133,14 +141,28 @@ namespace ZL.Shudu.Views
                     {
                         btn.Text = chess[i, j].ToString();
                         btn.IsEnabled = false;
+                        //btn.BackgroundColor = new Color(0.5, 0.5, 0.5);
+                        btn.TextColor = Color.Gray;
                     }
                     else
                     {
                         btn.Text = "";
                         btn.IsEnabled = true;
                     }
+                    int m = i / 3;
+                    int n = j / 3;
+                   
+                    var c = new Color(0.9, 0.9, 0.9);
+                    if ((m + n) % 2 == 0)
+                    {
+                        c = new Color(0.7, 0.7, 0.7);
+                    }
+                    btn.BackgroundColor = c;
                 }
             }
+            steps.Clear();
+            dtBegin = DateTime.Now;
+
             this.lbFinish.IsVisible = false;
             this.lbTime.IsVisible = false;
             this.lbMessage.IsVisible = false;
@@ -191,6 +213,7 @@ namespace ZL.Shudu.Views
             {
                 return;
             }
+            steps.Push(x + "," + y + "," + num);
             currentButton.Text = currentNumBtn.Text;
             myGrid.IsVisible = true;
             grdNumber.IsVisible = false;
@@ -200,9 +223,32 @@ namespace ZL.Shudu.Views
             if (IsFinish())
             {
                 lbFinish.IsVisible = true;
+                lbTime.IsVisible = true;
                 rowResult.Height = 40;
+                var diff = (DateTime.Now.Ticks - dtBegin.Ticks + currentDiffer) / 10000 / 1000 / 60;
+                lbTime.Text = diff + "分钟";
             }
         }
+
+        private void btn_Reset_Clicked(object sender, EventArgs e)
+        {
+            if (steps.Count > 0)
+            {
+                var laststep = steps.Pop();
+               
+                var arr = laststep.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                int x = int.Parse(arr[0]), y = int.Parse(arr[1]), num = int.Parse(arr[2]);
+                buttons[x, y].Text = "";
+            }
+        }
+
+        private void btn_NewGame_Clicked(object sender, EventArgs e)
+        {
+            SetNewGame();
+            lbFinish.IsVisible = false;
+            lbTime.Text = "";
+        }
+
 
         private bool checkval(int x, int y, int num)
         {
