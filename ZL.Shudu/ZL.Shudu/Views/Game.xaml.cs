@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ZL.Shudu.Services;
 
 namespace ZL.Shudu.Views
 {
@@ -130,7 +131,7 @@ namespace ZL.Shudu.Views
         private long currentDiffer = 0;//记录的时间差
 
 
-        public Game()
+        public  Game()
         {
             try
             {
@@ -204,11 +205,11 @@ namespace ZL.Shudu.Views
             }
         }
 
-        private void SetNewGame()
+        private async Task SetNewGame()
         {
-            int k;
-            var lst = chesses;
-            var leng = lst.GetLength(0);
+            int k,m;
+            var lst = await LoadFromDb(); 
+            var leng = lst.Count;
 
             if (ra == null)
             {
@@ -216,12 +217,14 @@ namespace ZL.Shudu.Views
             }
 
             k = ra.Next(0, leng);
-           
+            m = ra.Next(0, 9);
+            var sudoku = lst[k].Sudoku;
             var mychess = new int[9, 9];
             for (var i = 0; i < 9; i++)
                 for (var j = 0; j < 9; j++)
                 {
-                    mychess[i, j] = chesses[k, i, j];
+                    mychess[i, j] = int.Parse(sudoku.Substring(i * 9 + j, 1)) > 0 ? int.Parse(sudoku.Substring(i * 9 + j, 1)) + m : 0;
+                    if (mychess[i, j] > 9) mychess[i, j] = mychess[i, j] - 9;
                 }
 
             SetGame(mychess);
@@ -277,6 +280,39 @@ namespace ZL.Shudu.Views
             lbMessage.Text = "";
 
         }
+
+        private async Task<List<InputGameInfo>> LoadFromDb()
+        {
+            var leng = chesses.GetLength(0);
+            var task = App.Database.GetGamesAsync();
+            var lst = task.Result;
+
+            for (int k = 0; k < leng; k++)
+            {
+                var sudoku = "";
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        sudoku += chesses[k, i, j].ToString();
+                    }
+                }
+                var obj = lst.FirstOrDefault(o => o.Sudoku == sudoku);
+                if (obj == null)
+                {
+                    await App.Database.SaveGameAsync(new InputGameInfo
+                    {
+                        Sudoku = sudoku,
+                        InputDate = DateTime.Now,
+                        UsedInGame = true
+                    });
+                }
+            }
+
+            var l= await App.Database.GetGamesAsync();
+            lst = l.Where(o => o.UsedInGame).ToList();
+            return lst;
+        }
         private void Btn_Clicked(object sender, EventArgs e)
         {
             currentButton = sender as Button;
@@ -295,7 +331,7 @@ namespace ZL.Shudu.Views
             rowButton.Height = 40;
         }
 
-        private void btn_Num_Clicked(object sender, EventArgs e)
+        private async void btn_Num_Clicked(object sender, EventArgs e)
         {
             currentNumBtn = sender as Button;
             
@@ -335,6 +371,7 @@ namespace ZL.Shudu.Views
                 lbTime.Text = diff + "分钟";
                 string _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "shudu_current.txt");
                 File.Delete(_fileName);
+                await SaveToDb();
             }
         }
 
@@ -352,10 +389,9 @@ namespace ZL.Shudu.Views
 
         private async void btn_NewGame_Clicked(object sender, EventArgs e)
         {
-            SetNewGame();
+            await SetNewGame();
             lbFinish.IsVisible = false;
             lbTime.Text = "";
-            await Shell.Current.GoToAsync($"{nameof(Page1)}?{nameof(Page1.ItemId)}=1");
         }
 
 
@@ -436,6 +472,46 @@ namespace ZL.Shudu.Views
             }
         }
 
+        private async Task SaveToDb()
+        {
+            try
+            {
+                var finobj = new FinishGame();
+
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        finobj.Sudoku += chess[i, j].ToString();
+                    }
+                }
+
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        finobj.Result += string.IsNullOrEmpty(buttons[i, j].Text) ? "0" : buttons[i, j].Text;
+                    }
+                }
+
+                foreach (var str in steps)
+                {
+                    finobj.Steps += str + ";";
+                }
+
+                finobj.TotalTime = (DateTime.Now - dtBegin).Ticks;
+
+                finobj.PlayDate = DateTime.Now;
+
+                var id=await App.Database.SaveFinishGameAsync(finobj);
+
+            }
+            catch (Exception ex)
+            {
+
+                lbMessage.Text = ex.Message;
+            }
+        }
         private bool OpenCurrent()
         {
             try

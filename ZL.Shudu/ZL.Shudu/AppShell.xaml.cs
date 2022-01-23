@@ -8,7 +8,6 @@ namespace ZL.Shudu
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(Page1), typeof(Page1));
         }
 
     }
