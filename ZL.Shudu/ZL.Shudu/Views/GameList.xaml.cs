@@ -18,7 +18,12 @@ namespace ZL.Shudu.Views
         public GameList()
         {
             InitializeComponent();
-            RefreshList();
+           
+        }
+
+        protected override async void OnAppearing()
+        {
+            await RefreshList();
         }
 
         public async Task RefreshList()
@@ -41,5 +46,16 @@ namespace ZL.Shudu.Views
             return items;
         }
 
+        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+            await Shell.Current.GoToAsync($"{nameof(GameEdit)}?{nameof(GameEdit.ItemId)}={e.Item}");
+        }
+
+        async void btn_NewGame_Clicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(GameEdit)}?{nameof(GameEdit.ItemId)}=0");
+        }
     }
 }

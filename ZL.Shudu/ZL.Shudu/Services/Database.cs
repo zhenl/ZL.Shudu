@@ -23,6 +23,11 @@ namespace ZL.Shudu.Services
             return _database.Table<InputGameInfo>().ToListAsync();
         }
 
+        public Task<InputGameInfo> GetGameAsync(int id)
+        {
+            return _database.GetAsync<InputGameInfo>(id);
+        }
+
         public Task<int> SaveGameAsync(InputGameInfo game)
         {
             return _database.InsertAsync(game);

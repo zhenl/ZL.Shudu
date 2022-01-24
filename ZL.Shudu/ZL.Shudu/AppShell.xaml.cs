@@ -8,6 +8,8 @@ namespace ZL.Shudu
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(GameEdit), typeof(GameEdit));
+            Routing.RegisterRoute(nameof(GameList), typeof(GameList));
         }
 
     }

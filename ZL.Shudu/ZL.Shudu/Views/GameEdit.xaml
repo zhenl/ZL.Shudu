@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZL.Shudu.Views.GameEdit">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid x:Name="myGrid" IsVisible="True" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="25"  />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="40" x:Name="rowButton" />
+                    <RowDefinition Height="40" x:Name="rowResult" />
+                </Grid.RowDefinitions>
+        
+                <Button Text="保存" Grid.Row="9" Grid.Column="2"  Grid.ColumnSpan="2" Clicked="btn_Save_Clicked"></Button>
+                <Button Text="删除" x:Name="btn_Delete" Grid.Row="9" Grid.Column="4"  Grid.ColumnSpan="2" Clicked="btn_Delete_Clicked"></Button>
+                <Button Text="返回" Grid.Row="9" Grid.Column="6"  Grid.ColumnSpan="2" Clicked="btn_Back_Clicked"></Button>
+
+
+                <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="4" Text="" IsVisible="False"></Label>
+            </Grid>
+
+            <Grid x:Name="grdNumber" IsVisible="false">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
