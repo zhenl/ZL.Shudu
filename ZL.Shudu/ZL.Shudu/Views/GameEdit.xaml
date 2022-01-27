@@ -30,13 +30,14 @@
                     <RowDefinition Height="40" x:Name="rowButton" />
                     <RowDefinition Height="40" x:Name="rowResult" />
                 </Grid.RowDefinitions>
-        
+
+                <Button Text="检查" x:Name="btn_Check" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="2" Clicked="btn_Check_Clicked"></Button>
                 <Button Text="保存" Grid.Row="9" Grid.Column="2"  Grid.ColumnSpan="2" Clicked="btn_Save_Clicked"></Button>
                 <Button Text="删除" x:Name="btn_Delete" Grid.Row="9" Grid.Column="4"  Grid.ColumnSpan="2" Clicked="btn_Delete_Clicked"></Button>
                 <Button Text="返回" Grid.Row="9" Grid.Column="6"  Grid.ColumnSpan="2" Clicked="btn_Back_Clicked"></Button>
 
 
-                <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="4" Text="" IsVisible="False"></Label>
+                <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="4" Text="" ></Label>
             </Grid>
 
             <Grid x:Name="grdNumber" IsVisible="false">

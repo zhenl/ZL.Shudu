@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ZL.Shudu.Services;
+using ZL.Sudoku.Lib;
 
 namespace ZL.Shudu.Views
 {
@@ -16,9 +17,9 @@ namespace ZL.Shudu.Views
     {
         private bool IsSaved=false;
         private int currentId = 0;
-        private static int[,] chess = new int[9, 9];
         private Button[,] buttons = new Button[9, 9];
         private Button[,] numbuttons = new Button[2, 5];
+        private int[,] lastinput;
         private Button currentButton;
         private Button currentNumBtn;
 
@@ -51,8 +52,8 @@ namespace ZL.Shudu.Views
             for (var i = 0; i < 9; i++)
                 for (var j = 0; j < 9; j++)
                 {
-                    chess[i, j] = int.Parse(game.Sudoku.Substring(i * 9 + j, 1));
-                    buttons[i, j].Text = chess[i, j] > 0 ? chess[i, j].ToString() : "";
+                    var val = int.Parse(game.Sudoku.Substring(i * 9 + j, 1));
+                    buttons[i, j].Text = val > 0 ? val.ToString() : "";
                     buttons[i, j].IsEnabled = true;
 
                 }
@@ -115,21 +116,26 @@ namespace ZL.Shudu.Views
 
         private async void btn_Save_Clicked(object sender, EventArgs e)
         {
+            if(btn_Check.Text=="继续") btn_Check_Clicked(null,null);
             var str = "";
+            var chess = getChess();
             for (var i = 0; i < 9; i++)
                 for (var j = 0; j < 9; j++)
                 {
-                    if (string.IsNullOrEmpty(buttons[i, j].Text))
-                        chess[i, j] = 0;
-                    else
-                        chess[i, j] = int.Parse(buttons[i, j].Text);
-                    str += chess[i, j].ToString();
+                  str +=  chess[i, j].ToString();
                 }
-
+            var comp = new FindOneSolution(chess);
+            var res = comp.Comp();
+            if(res != 2)
+            {
+                lbMessage.Text = "不合法或者无法完成的游戏，请修改后保存";
+                return;
+            }
             var newgame = new InputGameInfo
             {
                 Sudoku = str,
-                InputDate = DateTime.Now
+                InputDate = DateTime.Now,
+                UsedInGame = true
             };
             if (currentId > 0)
             {
@@ -141,7 +147,6 @@ namespace ZL.Shudu.Views
                 currentId = await App.Database.SaveGameAsync(newgame);
             }
             lbMessage.Text = "保存成功";
-            lbMessage.IsVisible = true;
         }
 
         private void btn_New_Clicked(object sender, EventArgs e)
@@ -153,7 +158,6 @@ namespace ZL.Shudu.Views
                 {
                     buttons[i, j].Text = "";
                     buttons[i, j].IsEnabled = true;
-                    chess[i, j] = 0;
                 }
         }
 
@@ -178,22 +182,6 @@ namespace ZL.Shudu.Views
         {
 
             currentNumBtn = sender as Button;
-            int x = -1, y = -1;
-            for (var i = 0; i < 9; i++)
-            {
-                for (var j = 0; j < 9; j++)
-                {
-                    if (buttons[i, j] == currentButton)
-                    {
-                        x = i;
-                        y = j;
-                        break;
-                    }
-
-                }
-            }
-            var num = int.Parse(currentNumBtn.Text);
-
             currentButton.Text = currentNumBtn.Text;
             myGrid.IsVisible = true;
             grdNumber.IsVisible = false;
@@ -217,5 +205,76 @@ namespace ZL.Shudu.Views
             
             await Shell.Current.GoToAsync($"///{nameof(GameList)}");
         }
+
+        private void btn_Check_Clicked(object sender, EventArgs e)
+        {
+            if (btn_Check.Text == "检查")
+            {
+                var cinp = getChess();
+                lastinput = cinp;
+                var comp = new FindOneSolution(cinp);
+                var res = comp.Comp();
+                var fchess = comp.Matrix;
+
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        var btn = buttons[i, j];
+                        if (cinp[i, j] > 0)
+                        {
+                            btn.Text = cinp[i, j].ToString();
+
+                        }
+                        else
+                        {
+                            btn.Text = fchess[i, j] > 0 ? fchess[i, j].ToString() : "";
+                        }
+                    }
+                }
+                if (res == 0) lbMessage.Text = "不合法";
+                else if (res == 1) lbMessage.Text = "计算不出来";
+                else if (res == 2) lbMessage.Text = "计算完成";
+                else lbMessage.Text = "其它错误";
+                btn_Check.Text = "继续";
+            }
+            else
+            {
+                lbMessage.Text = "";
+                btn_Check.Text = "检查";
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        var btn = buttons[i, j];
+                        if (lastinput[i, j] > 0)
+                        {
+                            btn.Text = lastinput[i, j].ToString();
+
+                        }
+                        else
+                        {
+                            btn.Text ="";
+                        }
+                    }
+                }
+            }
+        }
+
+        private int[,] getChess()
+        {
+            var res = new int[9, 9];
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 9; j++)
+                {
+                    var btn = buttons[i, j];
+                    if(string.IsNullOrEmpty(btn.Text)) res[i,j]= 0;
+                    else res[i, j]=int.Parse(btn.Text);
+                }
+            }
+            return res;
+        }
+
     }
 }
