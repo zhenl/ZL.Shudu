@@ -32,6 +32,8 @@
     <TabBar>
         <ShellContent Title="游戏" Icon="icon_about.png" Route="Game"  ContentTemplate="{DataTemplate local:Game}" />
         <ShellContent Title="游戏列表" Icon="icon_about.png" Route="GameList"  ContentTemplate="{DataTemplate local:GameList}" />
+        <ShellContent Title="完成游戏" Icon="icon_about.png" Route="FinishGameList"  ContentTemplate="{DataTemplate local:FinishGameList}" />
+
     </TabBar>
 
 

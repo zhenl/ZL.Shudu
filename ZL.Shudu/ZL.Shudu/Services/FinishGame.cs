@@ -1,5 +1,7 @@
 ﻿using SQLite;
 using System;
+using Xamarin.Forms;
+using ZL.Shudu.Views;
 
 namespace ZL.Shudu.Services
 {
@@ -28,6 +30,20 @@ namespace ZL.Shudu.Services
         /// </summary>
         public long TotalTime { get; set; }
 
+        public Command<FinishGame> ItemTapped { get; }
 
+        public FinishGame()
+        {
+            ItemTapped = new Command<FinishGame>(OnItemSelected);
+        }
+
+        async void OnItemSelected(FinishGame item)
+        {
+            if (item == null)
+                return;
+
+            // This will push the ItemDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(FinishGameDetailPage)}?{nameof(FinishGameDetailPage.ItemId)}={item.Id}");
+        }
     }
 }
