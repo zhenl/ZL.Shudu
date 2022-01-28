@@ -31,7 +31,7 @@
                     <RowDefinition Height="40" x:Name="rowButton" />
                     <RowDefinition Height="40" x:Name="rowResult" />
                 </Grid.RowDefinitions>
-                <Button Text="看结果" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="3" Clicked="btn_Result_Clicked"></Button>
+                <Button Text="看结果" x:Name="btn_Result" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="3" Clicked="btn_Result_Clicked"></Button>
                 <Button Text="后退" Grid.Row="9" Grid.Column="3"  Grid.ColumnSpan="3" Clicked="btn_Reset_Clicked"></Button>
                 <Button Text="新游戏" Grid.Row="9" Grid.Column="6"  Grid.ColumnSpan="3" Clicked="btn_NewGame_Clicked"></Button>
 

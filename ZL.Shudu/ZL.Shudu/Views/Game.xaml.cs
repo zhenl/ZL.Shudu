@@ -130,7 +130,7 @@ namespace ZL.Shudu.Views
         private DateTime dtBegin;
         private Stack<string> steps = new Stack<string>();
         private long currentDiffer = 0;//记录的时间差
-
+        private int[,] lastinput;
 
         public  Game()
         {
@@ -585,32 +585,73 @@ namespace ZL.Shudu.Views
 
         private void btn_Result_Clicked(object sender, EventArgs e)
         {
-            var cinp = chess;
-            //lastinput = cinp;
-            var comp = new FindOneSolution(cinp);
-            var res = comp.Comp();
-            var fchess = comp.Matrix;
+            if (btn_Result.Text == "看结果")
+            {
+                var cinp = chess;
+                lastinput = getChess();
+                var comp = new FindOneSolution(cinp);
+                var res = comp.Comp();
+                var fchess = comp.Matrix;
 
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        var btn = buttons[i, j];
+                        if (cinp[i, j] > 0)
+                        {
+                            btn.Text = cinp[i, j].ToString();
+
+                        }
+                        else
+                        {
+                            btn.Text = fchess[i, j] > 0 ? fchess[i, j].ToString() : "";
+                        }
+                    }
+                }
+                if (res == 0) lbMessage.Text = "不合法";
+                else if (res == 1) lbMessage.Text = "计算不出来";
+                else if (res == 2) lbMessage.Text = "计算完成";
+                else lbMessage.Text = "其它错误";
+                btn_Result.Text = "继续";
+            }
+            else
+            {
+                btn_Result.Text = "看结果";
+                for (var i = 0; i < 9; i++)
+                {
+                    for (var j = 0; j < 9; j++)
+                    {
+                        var btn = buttons[i, j];
+                        if (lastinput[i, j] > 0)
+                        {
+                            btn.Text = lastinput[i, j].ToString();
+
+                        }
+                        else
+                        {
+                            btn.Text =  "";
+                        }
+                    }
+                }
+            }
+        }
+
+        private int[,] getChess()
+        {
+            var res = new int[9, 9];
             for (var i = 0; i < 9; i++)
             {
                 for (var j = 0; j < 9; j++)
                 {
                     var btn = buttons[i, j];
-                    if (cinp[i, j] > 0)
-                    {
-                        btn.Text = cinp[i, j].ToString();
-
-                    }
-                    else
-                    {
-                        btn.Text = fchess[i, j] > 0 ? fchess[i, j].ToString() : "";
-                    }
+                    if (string.IsNullOrEmpty(btn.Text)) res[i, j] = 0;
+                    else res[i, j] = int.Parse(btn.Text);
                 }
             }
-            if (res == 0) lbMessage.Text = "不合法";
-            else if (res == 1) lbMessage.Text = "计算不出来";
-            else if (res == 2) lbMessage.Text = "计算完成";
-            else lbMessage.Text = "其它错误";
+            return res;
         }
     }
+
+    
 }
