@@ -4,9 +4,43 @@
              x:Class="ZL.Shudu.Views.FinishGameDetailPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Grid x:Name="myGrid" IsVisible="False" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="25"  />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Button Text="开始" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="2" Clicked="btn_Begin_Clicked"></Button>
+                <Button Text="结束" Grid.Row="9" Grid.Column="2"  Grid.ColumnSpan="2" Clicked="btn_End_Clicked"></Button>
+                <Button Text="向前" Grid.Row="9" Grid.Column="4"  Grid.ColumnSpan="2" Clicked="btn_Forward_Clicked"></Button>
+                <Button Text="向后" Grid.Row="9" Grid.Column="6"  Grid.ColumnSpan="2" Clicked="btn_Back_Clicked"></Button>
+
+
+                <Label x:Name="lbTime" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="" ></Label>
+                <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="4" Text=""></Label>
+                <Button Text="返回列表" Grid.Row="10" Grid.Column="6"  Grid.ColumnSpan="2" Clicked="btn_List_Clicked"></Button>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -3,7 +3,7 @@ using System;
 using Xamarin.Forms;
 using ZL.Shudu.Views;
 
-namespace ZL.Shudu.Services
+namespace ZL.Shudu.Models
 {
     public class FinishGame
     {
@@ -34,16 +34,16 @@ namespace ZL.Shudu.Services
 
         public FinishGame()
         {
-            ItemTapped = new Command<FinishGame>(OnItemSelected);
+          //  ItemTapped = new Command<FinishGame>(OnItemSelected);
         }
 
-        async void OnItemSelected(FinishGame item)
-        {
-            if (item == null)
-                return;
+        //async void OnItemSelected(FinishGame item)
+        //{
+        //    if (item == null)
+        //        return;
 
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(FinishGameDetailPage)}?{nameof(FinishGameDetailPage.ItemId)}={item.Id}");
-        }
+        //    // This will push the ItemDetailPage onto the navigation stack
+        //    await Shell.Current.GoToAsync($"{nameof(FinishGameDetailPage)}?{nameof(FinishGameDetailPage.ItemId)}={item.Id}");
+        //}
     }
 }

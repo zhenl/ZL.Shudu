@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ZL.Shudu.Services;
+using ZL.Shudu.Models;
 using ZL.Sudoku.Lib;
 
 namespace ZL.Shudu.Views

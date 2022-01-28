@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ZL.Shudu.Models;
 
 namespace ZL.Shudu.Services
 {
@@ -49,6 +50,11 @@ namespace ZL.Shudu.Services
         public Task<List<FinishGame>> GetFinishGamesAsync()
         {
             return _database.Table<FinishGame>().ToListAsync();
+        }
+
+        public Task<FinishGame> GetFinishGameAsync(int id)
+        {
+            return _database.GetAsync<FinishGame>(id);
         }
 
         public Task<int> SaveFinishGameAsync(FinishGame game)

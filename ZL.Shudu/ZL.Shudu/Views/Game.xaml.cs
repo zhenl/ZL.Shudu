@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ZL.Shudu.Services;
+using ZL.Shudu.Models;
+using ZL.Sudoku.Lib;
 
 namespace ZL.Shudu.Views
 {
@@ -580,6 +581,36 @@ namespace ZL.Shudu.Views
         protected override void OnDisappearing()
         {
             Save("shudu_current.txt");
+        }
+
+        private void btn_Result_Clicked(object sender, EventArgs e)
+        {
+            var cinp = chess;
+            //lastinput = cinp;
+            var comp = new FindOneSolution(cinp);
+            var res = comp.Comp();
+            var fchess = comp.Matrix;
+
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 9; j++)
+                {
+                    var btn = buttons[i, j];
+                    if (cinp[i, j] > 0)
+                    {
+                        btn.Text = cinp[i, j].ToString();
+
+                    }
+                    else
+                    {
+                        btn.Text = fchess[i, j] > 0 ? fchess[i, j].ToString() : "";
+                    }
+                }
+            }
+            if (res == 0) lbMessage.Text = "不合法";
+            else if (res == 1) lbMessage.Text = "计算不出来";
+            else if (res == 2) lbMessage.Text = "计算完成";
+            else lbMessage.Text = "其它错误";
         }
     }
 }

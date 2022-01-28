@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using System;
 
-namespace ZL.Shudu.Services
+namespace ZL.Shudu.Models
 {
     public class InputGameInfo
     {
