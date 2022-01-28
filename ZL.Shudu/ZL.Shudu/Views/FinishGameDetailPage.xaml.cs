@@ -40,6 +40,8 @@ namespace ZL.Shudu.Views
 
             }
         }
+
+        public string Title { get; set; } = "游戏记录";
         public FinishGameDetailPage()
         {
             InitializeComponent();
@@ -73,8 +75,6 @@ namespace ZL.Shudu.Views
 
         private void SetLayout()
         {
-            //if (buttons[0, 0] != null) return; //已经初始化
-            //myGrid.Children.Clear();
             for (var i = 0; i < 9; i++)
             {
                 for (var j = 0; j < 9; j++)
@@ -90,11 +90,9 @@ namespace ZL.Shudu.Views
 
                     }
                     btn.BackgroundColor = c;
-                    // btn.TextColor = c1;
                     btn.Padding = 0;
                     btn.Margin = 0;
                     btn.FontSize = 20;
-                    //btn.HeightRequest = 10;
                     myGrid.Children.Add(btn, i, j);
 
                     buttons[i, j] = btn;
@@ -175,12 +173,6 @@ namespace ZL.Shudu.Views
 
                 lbMessage.Text = ex.Message;
             }
-        }
-
-        private async void btn_List_Clicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync($"{nameof(FinishGameListPage)}");
-
         }
     }
 }

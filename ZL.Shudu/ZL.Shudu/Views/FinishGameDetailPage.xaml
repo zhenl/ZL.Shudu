@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZL.Shudu.Views.FinishGameDetailPage">
+             x:Class="ZL.Shudu.Views.FinishGameDetailPage"
+             Title="游戏记录">
     <ContentPage.Content>
         <StackLayout>
-            <Grid x:Name="myGrid" IsVisible="False" >
+            <Grid x:Name="myGrid" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -39,7 +40,6 @@
 
                 <Label x:Name="lbTime" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="" ></Label>
                 <Label x:Name="lbMessage" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="4" Text=""></Label>
-                <Button Text="返回列表" Grid.Row="10" Grid.Column="6"  Grid.ColumnSpan="2" Clicked="btn_List_Clicked"></Button>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

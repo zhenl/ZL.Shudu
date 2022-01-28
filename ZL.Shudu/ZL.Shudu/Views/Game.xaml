@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZL.Shudu.Views.Game">
+             x:Class="ZL.Shudu.Views.Game"
+             Title="数独游戏">
     <ContentPage.Content>
         <StackLayout x:Name="outerStack"  Orientation="Vertical">
             <!-- Place new controls here -->

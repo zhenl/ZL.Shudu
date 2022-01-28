@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms" xmlns:d1="http://xamarin.com/schemas/2014/forms/design"
-             x:Class="ZL.Shudu.Views.GameList">
+             x:Class="ZL.Shudu.Views.GameList"
+             Title="游戏列表">
     <ContentPage.Content>
         <StackLayout>
             <Button Text="新游戏"  Clicked="btn_NewGame_Clicked"></Button>
