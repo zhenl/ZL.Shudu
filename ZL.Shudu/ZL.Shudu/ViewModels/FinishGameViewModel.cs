@@ -72,7 +72,8 @@ namespace ZL.Shudu.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(FinishGameDetailPage)}?{nameof(FinishGameDetailPage.ItemId)}={item.Id}");
+            //await Shell.Current.GoToAsync($"{nameof(FinishGameDetailPage)}?{nameof(FinishGameDetailPage.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(FinishGameDetailNewPage)}?{nameof(FinishGameDetailViewModel.ItemId)}={item.Id}");
         }
     }
 }

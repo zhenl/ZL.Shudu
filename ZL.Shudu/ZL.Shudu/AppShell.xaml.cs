@@ -12,6 +12,7 @@ namespace ZL.Shudu
             Routing.RegisterRoute(nameof(GameList), typeof(GameList));
             Routing.RegisterRoute(nameof(FinishGameListPage), typeof(FinishGameListPage));
             Routing.RegisterRoute(nameof(FinishGameDetailPage), typeof(FinishGameDetailPage));
+            Routing.RegisterRoute(nameof(FinishGameDetailNewPage), typeof(FinishGameDetailNewPage));
         }
 
     }
